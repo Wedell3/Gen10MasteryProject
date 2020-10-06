@@ -7,7 +7,7 @@ public class Host {
     private String lastName;
     private String email;
     private String id;
-    private String phone;
+    private String phoneNumber;
     private String address;
     private String city;
     private String state;
@@ -34,8 +34,8 @@ public class Host {
     public String getId() {
         return id;
     }
-    public String getPhone() {
-        return phone;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
     public String getAddress() {
         return address;
@@ -66,8 +66,8 @@ public class Host {
     public void setId(String id) {
         this.id = id;
     }
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
     public void setAddress(String address) {
         this.address = address;
