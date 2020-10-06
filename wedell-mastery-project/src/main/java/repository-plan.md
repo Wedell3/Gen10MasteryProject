@@ -25,26 +25,26 @@
     String Delimiter
     
     Methods
-    [ ] List<Guest> findAll()
-        [ ] create new arraylist
-        [ ] try with resouces BufferedReader
-        [ ] catch IOException
-        [ ] loop through lines
-        [ ] deserialize
-        [ ] add to list
-        [ ] return list
+    [x] List<Guest> findAll()
+        [x] create new arraylist
+        [x] try with resouces BufferedReader
+        [x] catch IOException
+        [x] loop through lines
+        [x] deserialize
+        [x] add to list
+        [x] return list
     
-    [ ] Guest findByEmail(String email)
-        [ ] create array list equal to findAll()
-        [ ] enhanced for loop to loop through guests
-        [ ] if guest.getEmail equals email return guest
-        [ ] return null after loop
+    [x] Guest findByEmail(String email)
+        [x] create array list equal to findAll()
+        [x] enhanced for loop to loop through guests
+        [x] if guest.getEmail equals email return guest
+        [x] return null after loop
         
-    [ ] Guest deserialize(String line)
-        [ ] split line
-        [ ] create new Guest
-        [ ] set fields
-        [ ] return Guest    
+    [x] Guest deserialize(String line)
+        [x] split line
+        [x] create new Guest
+        [x] set fields
+        [x] return Guest    
         
         
 ###HostFileRepository 45 minutes
@@ -53,32 +53,32 @@
     String Delimiter
     
     Methods
-    [ ] List<Host> findAll()
-        [ ] create new arraylist
-        [ ] try wtih resources BufferedReader     
-        [ ] catch IOException
-        [ ] for loop, loop through lines 
-        [ ] deserialize to Host
-        [ ] add Host to list
-        [ ] return list
+    [x] List<Host> findAll()
+        [x] create new arraylist
+        [x] try wtih resources BufferedReader     
+        [x] catch IOException
+        [x] for loop, loop through lines 
+        [x] deserialize to Host
+        [x] add Host to list
+        [x] return list
         
-    [ ] Host findByEmail(String email)
-        [ ] create array list with all hosts using findAll()
-        [ ] enhanced for loop thru list
-        [ ] if host.getEmail = email return host
-        [ ] after loop return null if no match found   
+    [x] Host findByEmail(String email)
+        [x] create array list with all hosts using findAll()
+        [x] enhanced for loop thru list
+        [x] if host.getEmail = email return host
+        [x] after loop return null if no match found   
            
-    [ ] Host findByID(String ID)
-        [ ] create array list with all hosts using findAll()
-        [ ] enhanced for loop thru list
-        [ ] if host.getId = id then return host
-        [ ] after loop return null if no match found
+    [x] Host findByID(String ID)
+        [x] create array list with all hosts using findAll()
+        [x] enhanced for loop thru list
+        [x] if host.getId = id then return host
+        [x] after loop return null if no match found
         
-    [ ] Host deserialize(String line)
-        [ ] split line
-        [ ] create new Host
-        [ ] set fields
-        [ ] return Host
+    [x] Host deserialize(String line)
+        [x] split line
+        [x] create new Host
+        [x] set fields
+        [x] return Host
         
 ###ReservationFileRepository 60 minutes
     Fields
@@ -86,13 +86,13 @@
     String Delimeter
     
     Methods
-    [ ] List<Reservations> findByHost(Host host)
-        [ ] make new arraylist
-        [ ] create file path from host id
-        [ ] try with Resources BufferedReader read from csv from hostId path
-        [ ] deserialize line
-        [ ] add reservation to list
-        [ ] return list
+    [x] List<Reservations> findByHost(Host host)
+        [x] make new arraylist
+        [x] create file path from host id
+        [x] try with Resources BufferedReader read from csv from hostId path
+        [x] deserialize line
+        [x] add reservation to list
+        [x] return list
     
     [ ] Reservation add(Reservation reservation)
         [ ] make new arraylist from findByHost(reservation.getHost)
@@ -117,20 +117,20 @@
         [ ] arraylist.remove(reservation) return true
         [ ] after loop return false(No match found)
         
-    [ ] Reservation deserialize(String line)
-        [ ] split line
-        [ ] Create new Reservation
-        [ ] set fields
-        [ ] return Reservation
+    [x] Reservation deserialize(String line)
+        [x] split line
+        [x] Create new Reservation
+        [x] set fields
+        [x] return Reservation
     
-    [ ] void writeAll(List<Reservations>)
-        [ ] try wtih resources printWriter to hostid file name
-        [ ] enhanced for loop thru list
-        [ ] serialize
-        [ ] print to file
+    [x] void writeAll(List<Reservations>)
+        [x] try wtih resources printWriter to hostid file name
+        [x] enhanced for loop thru list
+        [x] serialize
+        [x] print to file
     
-    [ ] String serialize(Reservation)
-        [ ] create stringbuiler object
-        [ ] append fields separated by commas
-        [ ] return string        
+    [x] String serialize(Reservation)
+        [x] create stringbuiler object
+        [x] append fields separated by commas
+        [x] return string        
                         
