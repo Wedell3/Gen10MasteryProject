@@ -2,24 +2,24 @@
 
 ##Host 15 minutes
     Constructor
-    Empty
-    firstName, lastName, email
+    [x] Empty
+    [x] firstName, lastName, email
 
     Fields
-    [ ] String firstName
-    [ ] String lastName
-    [ ] String email
-    [ ] String id (GUID generated)
-    [ ] BigDecimal weekdayRate
-    [ ] BigDecimal weekendRate
+    [x] String firstName
+    [x] String lastName
+    [x] String email
+    [x] String id (GUID generated)
+    [x] BigDecimal weekdayRate
+    [x] BigDecimal weekendRate
     
     Getters and Setters
-    [ ] firstName
-    [ ] lastName
-    [ ] email
-    [ ] id
-    [ ] weekdayRate
-    [ ] weekendRate
+    [x] firstName
+    [x] lastName
+    [x] email
+    [x] id
+    [x] weekdayRate
+    [x] weekendRate
 
 ##Guest 15 minutes
     Constructors
@@ -38,20 +38,20 @@
     
 ##Reservation 15 minutes
     Constructors
-    Empty
+    [x] Empty
     
     Fields
-    [ ] Host host
-    [ ] Guest guest
-    [ ] LocalDate startDate
-    [ ] LocalDate endDate
-    [ ] BigDecimal cost
-    [ ] int id
+    [x] Host host
+    [x] Guest guest
+    [x] LocalDate startDate
+    [x] LocalDate endDate
+    [x] BigDecimal cost
+    [x] int id
     
     Getters and Setters
-    [ ] host
-    [ ] guest
-    [ ] startDate
-    [ ] endDate
-    [ ] cost
-    [ ] id
+    [x] host
+    [x] guest
+    [x] startDate
+    [x] endDate
+    [x] cost
+    [x] id
