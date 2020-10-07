@@ -23,3 +23,6 @@
 hs_err_pid*
 
 wedell-mastery-project/.idea/
+wedell-mastery-project/data/reservations
+wedell-mastery-project/data/guests.csv
+wedell-mastery-project/data/hosts.csv
