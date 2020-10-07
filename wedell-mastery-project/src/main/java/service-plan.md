@@ -32,9 +32,9 @@
     ReservationRepository reservationRepository
     
     Methods
-    [ ] Result<Reservation> addReservation(Reservation reservation)
+    [x] Result<Reservation> addReservation(Reservation reservation)
         [x] create new Result
-        [ ] validate reservation info
+        [x] validate reservation info
         [x] if result not successful return result
         [x] reservationRepository.add(reservation)
         [x] set result payload with reservation
@@ -43,23 +43,23 @@
     [x] List<Reservation> findByHost(Host host)
         [x] return reservationRepository.findByHost(host)
         
-    [ ] Result<Reservation> updateReservation(Reservation reservation)
+    [x] Result<Reservation> updateReservation(Reservation reservation)
         [x] create result
-        [ ] validate reservation
+        [x] validate reservation
         [x] if result is failure return result
         [x] if(!reservationRepository.update(host) add error message return result
         [x] add reservation as result payload
         [x] return result
         
-    [ ] Result<Reservation> deleteReservation(Reservation reservation)
+    [x] Result<Reservation> deleteReservation(Reservation reservation)
         [x] create result
         [x] if reservationRepository.deleteReservation() is not success add error message
         [x] return result
         
-    [ ] validate reservation
-        [ ] validate fields not null
-        [ ] validate start data not in past
-        [ ] end date after start date
-        [ ] dates don't overlap other reservations    
+    [x] validate reservation
+        [x] validate fields not null
+        [x] validate start data not in past
+        [x] end date after start date
+        [x] dates don't overlap other reservations    
         
            
