@@ -47,7 +47,7 @@ public class HostFileRepository implements HostRepository {
     public Host findById(String id) {
         List<Host> all = findAll();
         for(Host host : all) {
-            if(host.getEmail().equals(id)) {
+            if(host.getId().equals(id)) {
                 return host;
             }
         }

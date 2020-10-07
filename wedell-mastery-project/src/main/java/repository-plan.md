@@ -94,28 +94,28 @@
         [x] add reservation to list
         [x] return list
     
-    [ ] Reservation add(Reservation reservation)
-        [ ] make new arraylist from findByHost(reservation.getHost)
-        [ ] set reservation ID
-        [ ] add reservation to list
-        [ ] writeAll
-        [ ] return Reservation
+    [x] Reservation add(Reservation reservation)
+        [x] make new arraylist from findByHost(reservation.getHost)
+        [x] set reservation ID
+        [x] add reservation to list
+        [x] writeAll
+        [x] return Reservation
     
-    [ ] Boolean update(Reservation reservation)
-        [ ] make arraylist from findByHost(reservation.getHost)
-        [ ] for loop thru list
-        [ ] if reservation.getId matches id in list
-        [ ] recalculate cost
-        [ ] arraylist.set(index, reservation) / update reservation
-        [ ] return true
-        [ ] after loop return false (no match found)
+    [x] Boolean update(Reservation reservation)
+        [x] make arraylist from findByHost(reservation.getHost)
+        [x] for loop thru list
+        [x] if reservation.getId matches id in list
+        [x] recalculate cost
+        [x] arraylist.set(index, reservation) / update reservation
+        [x] return true
+        [x] after loop return false (no match found)
         
-    [ ] Boolean delete(Reservation reservation)
-        [ ] make arraylist from findByHost(reservation.getHost)
-        [ ] for loop thru list
-        [ ] if reservation.getId matches id in list
-        [ ] arraylist.remove(reservation) return true
-        [ ] after loop return false(No match found)
+    [x] Boolean delete(Reservation reservation)
+        [x] make arraylist from findByHost(reservation.getHost)
+        [x] for loop thru list
+        [x] if reservation.getId matches id in list
+        [x] arraylist.remove(reservation) return true
+        [x] after loop return false(No match found)
         
     [x] Reservation deserialize(String line)
         [x] split line
