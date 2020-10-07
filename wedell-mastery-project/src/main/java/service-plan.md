@@ -5,25 +5,25 @@
     GuestRepository repository
     
     Methods
-    [ ] List<Guest> findAll()
-        [ ] return repository.findall()
+    [x] List<Guest> findAll()
+        [x] return repository.findall()
        
-    [ ] Guest findByEmail(String email)
-        [ ] return repository.findByEmail(email)
+    [x] Guest findByEmail(String email)
+        [x] return repository.findByEmail(email)
            
 ##HostService 30 minutes
     Fields
     HostRepository repository
         
     Methods
-    [ ] List<Host> findAll()
-        [ ] return repository.findAll()
+    [x] List<Host> findAll()
+        [x] return repository.findAll()
          
-    [ ] Host findByEmail(String email)
-        return repository.findByEmail(email);
+    [x] Host findByEmail(String email)
+        [x]return repository.findByEmail(email);
         
-    [ ] Host findByID(String id)
-        return repository.findById(id)
+    [x] Host findByID(String id)
+        [x] return repository.findById(id)
             
 ##Reservation Service 60 minutes
     Fields
@@ -33,28 +33,28 @@
     
     Methods
     [ ] Result<Reservation> addReservation(Reservation reservation)
-        [ ] create new Result
+        [x] create new Result
         [ ] validate reservation info
-        [ ] if result not successful return result
-        [ ] reservationRepository.add(reservation)
-        [ ] set result payload with reservation
-        [ ] return result
+        [x] if result not successful return result
+        [x] reservationRepository.add(reservation)
+        [x] set result payload with reservation
+        [x] return result
     
-    [ ] List<Reservation> findByHost(Host host)
-        [ ] return hostRepository.findByHost(host)
+    [x] List<Reservation> findByHost(Host host)
+        [x] return reservationRepository.findByHost(host)
         
     [ ] Result<Reservation> updateReservation(Reservation reservation)
-        [ ] create result
+        [x] create result
         [ ] validate reservation
-        [ ] if result is failure return result
-        [ ] if(!reservationRepository.update(host) add error message return result
-        [ ] add reservation as result payload
-        [ ] return result
+        [x] if result is failure return result
+        [x] if(!reservationRepository.update(host) add error message return result
+        [x] add reservation as result payload
+        [x] return result
         
     [ ] Result<Reservation> deleteReservation(Reservation reservation)
-        [ ] create result
-        [ ] if reservationRepository.deleteReservation() is not success add error message
-        [ ] return result
+        [x] create result
+        [x] if reservationRepository.deleteReservation() is not success add error message
+        [x] return result
         
     [ ] validate reservation
         [ ] validate fields not null
