@@ -8,8 +8,11 @@ import mastery_project.repository.GuestRepository;
 import mastery_project.repository.HostRepository;
 import mastery_project.repository.ReservationRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class ReservationService {
     private final GuestRepository guestRepository;
@@ -25,7 +28,28 @@ public class ReservationService {
     public List<Reservation> findByHost(Host host) throws DataException {
         Result<Reservation> result = new Result<>();
         validateHost(host, result);
+        if(!result.isSuccess()){
+            return new ArrayList<>();
+        }
         return reservationRepository.findByHost(host);
+    }
+
+    public List<Reservation> findGuestForHost(Host host, Guest guest) throws DataException {
+        Result<Reservation> result = new Result<>();
+        validateGuest(guest, result);
+        if(!result.isSuccess()){
+            return new ArrayList<>();
+        }
+        return findByHost(host).stream().filter(r -> r.getGuest().getEmail().equals(guest.getEmail())).collect(Collectors.toList());
+    }
+
+    public BigDecimal calculateCost(Reservation reservation) throws DataException{
+        Result<Reservation> result = new Result<>();
+        validateReservation(reservation, result);
+        if(!result.isSuccess()) {
+            return null;
+        }
+        return reservationRepository.calculateCost(reservation);
     }
 
     public Result<Reservation> addReservation(Reservation reservation) throws DataException {
@@ -88,6 +112,12 @@ public class ReservationService {
         }
         if(host.getEmail() == null || host.getEmail().isBlank()) {
             result.addErrorMessage("Host must have a valid email");
+        }
+        if(host.getStandardRate() == null || host.getStandardRate().compareTo(BigDecimal.ZERO) <= 0) {
+            result.addErrorMessage("Host must have a positive standard rate");
+        }
+        if(host.getWeekendRate() == null || host.getWeekendRate().compareTo(BigDecimal.ZERO) <= 0) {
+            result.addErrorMessage("Host must have a positive weekend rate");
         }
         if(!result.isSuccess()) {
             return;

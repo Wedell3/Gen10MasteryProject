@@ -1,5 +1,21 @@
 #Service plan service 2 hours + 1.5 hours Testing
 
+## To Add
+    [x] calculate cost
+        [x] test
+    [x] find by host and guest
+        [x] test
+    [x] find by host check null
+        [x] test
+    [x] validate rates set for host
+        [x] test;
+
+
+
+
+
+
+
 ##GuestService 30 minutes
     Fields
     GuestRepository repository

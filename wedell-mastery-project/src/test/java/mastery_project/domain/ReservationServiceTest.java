@@ -63,6 +63,81 @@ class ReservationServiceTest {
     }
 
     @Test
+    void shouldCalculateRate() throws DataException {
+        Reservation reservation = new Reservation();
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        assertEquals(new BigDecimal(300), service.calculateCost(reservation));
+    }
+
+    @Test
+    void shouldNotCalculateForNullStandardRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setStandardRate(null);
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        assertNull(service.calculateCost(reservation));
+    }
+
+    @Test
+    void shouldNotCalculateForNegativeStandardRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setStandardRate(new BigDecimal(-1));
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        assertNull(service.calculateCost(reservation));
+    }
+
+    @Test
+    void shouldNotCalculateForZeroStandardRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setStandardRate(new BigDecimal(0));
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        assertNull(service.calculateCost(reservation));
+    }
+    @Test
+    void shouldNotCalculateForNullWeekendRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setWeekendRate(null);
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        assertNull(service.calculateCost(reservation));
+    }
+
+    @Test
+    void shouldNotCalculateForNegativeWeekendRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setWeekendRate(new BigDecimal(-1));
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        assertNull(service.calculateCost(reservation));
+    }
+
+    @Test
+    void shouldNotCalculateForZeroWeekendRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setWeekendRate(new BigDecimal(0));
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        assertNull(service.calculateCost(reservation));
+    }
+
+    @Test
     void shouldAdd() throws DataException {
         Reservation reservation = new Reservation();
         reservation.setHost(host);
@@ -127,7 +202,6 @@ class ReservationServiceTest {
         assertTrue(result.getErrorMessages().get(0).contains("start"));
     }
 
-    //Can't find host or guest by email
     @Test
     void shouldNotAddForNonExistentHost() throws DataException {
         Reservation reservation = new Reservation();
@@ -140,6 +214,90 @@ class ReservationServiceTest {
         assertNotNull(result);
         assertFalse(result.isSuccess());
         assertTrue(result.getErrorMessages().get(0).contains("Host"));
+    }
+
+    @Test
+    void shouldNotAddForNullStandardRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setStandardRate(null);
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        Result<Reservation> result = service.addReservation(reservation);
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getErrorMessages().get(0).contains("positive"));
+    }
+
+    @Test
+    void shouldNotAddForNegativeStandardRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setStandardRate(new BigDecimal(-1));
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        Result<Reservation> result = service.addReservation(reservation);
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getErrorMessages().get(0).contains("positive"));
+    }
+
+    @Test
+    void shouldNotAddForZeroStandardRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setStandardRate(BigDecimal.ZERO);
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        Result<Reservation> result = service.addReservation(reservation);
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getErrorMessages().get(0).contains("positive"));
+    }
+
+    @Test
+    void shouldNotAddForNullWeekendRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setWeekendRate(null);
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        Result<Reservation> result = service.addReservation(reservation);
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getErrorMessages().get(0).contains("positive"));
+    }
+
+    @Test
+    void shouldNotAddForNegativeWeekendRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setWeekendRate(new BigDecimal(-1));
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        Result<Reservation> result = service.addReservation(reservation);
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getErrorMessages().get(0).contains("positive"));
+    }
+
+    @Test
+    void shouldNotAddForZeroWeekendRate() throws DataException {
+        Reservation reservation = new Reservation();
+        host.setWeekendRate(BigDecimal.ZERO);
+        reservation.setHost(host);
+        reservation.setGuest(guest);
+        reservation.setEndDate(endDate);
+        reservation.setStartDate(startDate);
+        Result<Reservation> result = service.addReservation(reservation);
+        assertNotNull(result);
+        assertFalse(result.isSuccess());
+        assertTrue(result.getErrorMessages().get(0).contains("positive"));
     }
 
     @Test
