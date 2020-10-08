@@ -75,6 +75,26 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
+    void shouldCalculateCost() {
+        Reservation reservation = new Reservation();
+        reservation.setGuest(guest);
+        reservation.setHost(host);
+        reservation.setStartDate(LocalDate.of(2020, 10, 6));
+        reservation.setEndDate(LocalDate.of(2020,10,7));
+        assertEquals(new BigDecimal(180), repository.calculateCost(reservation));
+    }
+
+    @Test
+    void shouldCalculateCostOverWeekend() {
+        Reservation reservation = new Reservation();
+        reservation.setGuest(guest);
+        reservation.setHost(host);
+        reservation.setStartDate(LocalDate.of(2020, 10, 9));
+        reservation.setEndDate(LocalDate.of(2020,10,12));
+        assertEquals(new BigDecimal(630), repository.calculateCost(reservation));
+    }
+
+    @Test
     void shouldUpdate() throws DataException {
         Reservation reservation = repository.findByHost(host).get(0);
         reservation.setHost(host);
@@ -86,7 +106,7 @@ class ReservationFileRepositoryTest {
     }
 
     @Test
-    void shouldNotUpdateForNonExisitngReservation() throws DataException {
+    void shouldNotUpdateForNonExisitingReservation() throws DataException {
         Reservation reservation = new Reservation();
         reservation.setHost(host);
         reservation.setId(50);

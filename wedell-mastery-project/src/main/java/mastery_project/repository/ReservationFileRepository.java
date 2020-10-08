@@ -78,6 +78,24 @@ public class ReservationFileRepository implements ReservationRepository {
         return false;
     }
 
+    public BigDecimal calculateCost(Reservation reservation) {
+        LocalDate startDate = reservation.getStartDate();
+        LocalDate endDate = reservation.getEndDate();
+        LocalDate date = LocalDate.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth());
+        BigDecimal standardRate = reservation.getHost().getStandardRate();
+        BigDecimal weekendRate =  reservation.getHost().getWeekendRate();
+        BigDecimal cost = new BigDecimal(0);
+        do{
+            if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                cost = cost.add(weekendRate);
+            } else {
+                cost = cost.add(standardRate);
+            }
+            date = date.plusDays(1);
+        } while (date.isBefore(endDate));
+        return cost;
+    }
+
     private void writeAll(List<Reservation> reservations, Host host) {
         if(reservations == null || reservations.size() == 0 || host == null){
             return;
@@ -136,24 +154,6 @@ public class ReservationFileRepository implements ReservationRepository {
         sb.append("guest_id").append(DELIMITER);
         sb.append("total");
         return sb.toString();
-    }
-
-    private BigDecimal calculateCost(Reservation reservation) {
-        LocalDate startDate = reservation.getStartDate();
-        LocalDate endDate = reservation.getEndDate();
-        LocalDate date = LocalDate.of(startDate.getYear(), startDate.getMonthValue(), startDate.getDayOfMonth());
-        BigDecimal standardRate = reservation.getHost().getStandardRate();
-        BigDecimal weekendRate =  reservation.getHost().getWeekendRate();
-        BigDecimal cost = new BigDecimal(0);
-        do{
-            if(date.getDayOfWeek() == DayOfWeek.SATURDAY || date.getDayOfWeek() == DayOfWeek.SUNDAY) {
-                cost = cost.add(weekendRate);
-            } else {
-                cost = cost.add(standardRate);
-            }
-            date = date.plusDays(1);
-        } while (date.isBefore(endDate));
-        return cost;
     }
 
     private int getNextId(List<Reservation> reservations) {

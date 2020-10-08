@@ -5,6 +5,7 @@ import mastery_project.models.Reservation;
 import mastery_project.repository.DataException;
 import mastery_project.repository.ReservationRepository;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,11 @@ public class ReservationRepositoryDouble  implements ReservationRepository {
     @Override
     public boolean delete(Host host, int id) throws DataException {
         return reservations.get(0).getId() == id;
+    }
+
+    @Override
+    public BigDecimal calculateCost(Reservation reservation) {
+        return new BigDecimal(300);
     }
 
     private ArrayList<Reservation> makeReservations() {
