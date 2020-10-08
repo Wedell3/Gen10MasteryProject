@@ -2,17 +2,17 @@
 
 ## Menu Options Enum 15 minutes
     Create menu options with value and message fields
-        [ ] exit
-        [ ] create reservation
-        [ ] view by host
-        [ ] update reservation
-        [ ] delete reservation
+        [x] exit
+        [x] create reservation
+        [x] view by host
+        [x] update reservation
+        [x] delete reservation
         
 ##Controller 45 minutes
-    [ ] run method
-        [ ] do while loop
-        [ ] switch statement with cases for all menu options
-        [ ] calls to private methods
+    [x] run method
+        [x] do while loop
+        [x] switch statement with cases for all menu options
+        [x] calls to private methods
         
     [ ] create reservation
         [ ] view.displayHeader
@@ -21,9 +21,9 @@
         [ ] view.display result
         
     [ ] view reservations by host
-        [ ] display header
-        [ ] view.getHost
-        [ ] reservationService.getReservationsByHost(host)
+        [x] display header
+        [x] view.getHost
+        [x] reservationService.getReservationsByHost(host)
         [ ] view display reservations
     
     [ ] update reservation
@@ -47,8 +47,6 @@
     makeReservation
     getHost
     getGuest
-
-##ConsoleIO 30 minutes
     readDate
     readString
     readRequiredString
