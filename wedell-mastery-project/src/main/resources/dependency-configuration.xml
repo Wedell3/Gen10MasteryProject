@@ -5,18 +5,18 @@
         https://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <bean id="reservationRepository" class="mastery_project.repository.ReservationFileRepository">
-        <constructor-arg value="data/reservations/"/>
+        <constructor-arg value="./data/reservations/"/>
     </bean>
 
     <bean id="hostRepository" class="mastery_project.repository.HostFileRepository">
-        <constructor-arg value="data/hosts.csv"/>
+        <constructor-arg value="./data/hosts.csv"/>
     </bean>
 
     <bean id="guestRepository" class="mastery_project.repository.GuestFileRepository">
-        <constructor-arg value="data/guests.csv"/>
+        <constructor-arg value="./data/guests.csv"/>
     </bean>
 
-    <bean id="reservationService" class="master_project.domain.ReservationService">
+    <bean id="reservationService" class="mastery_project.domain.ReservationService">
         <constructor-arg ref="guestRepository"/>
         <constructor-arg ref="hostRepository"/>
         <constructor-arg ref="reservationRepository"/>

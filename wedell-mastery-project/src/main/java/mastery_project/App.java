@@ -1,2 +1,20 @@
-package mastery_project;public class App {
+package mastery_project;
+
+import mastery_project.repository.DataException;
+import mastery_project.ui.Controller;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class App {
+
+
+    public static void main(String[] args) {
+        ApplicationContext context = new ClassPathXmlApplicationContext("dependency-configuration.xml");
+        Controller controller = context.getBean(Controller.class);
+        try{
+            controller.run();
+        } catch (DataException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }
