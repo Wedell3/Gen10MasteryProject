@@ -42,6 +42,16 @@ public class GuestFileRepository implements GuestRepository{
         return null;
     }
 
+    public Guest findById(int id) {
+        List<Guest> all = findAll();
+        for(Guest guest : all) {
+            if(guest.getId() == id){
+                return guest;
+            }
+        }
+        return null;
+    }
+
     private Guest deserialize(String line) {
         String[] fields = line.split(DELIMITER);
         if(fields.length == 6) {
