@@ -11,6 +11,7 @@ import mastery_project.repository.ReservationRepository;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,7 +34,7 @@ public class ReservationService {
         }
         List<Reservation> reservations = reservationRepository.findByHost(host);
         getGuestInfo(reservations);
-        return reservations;
+        return reservations.stream().sorted(Comparator.comparing(Reservation::getStartDate)).collect(Collectors.toList());
     }
 
     public List<Reservation> findGuestForHost(Host host, Guest guest) throws DataException {
@@ -59,9 +60,6 @@ public class ReservationService {
     public Result<Reservation> addReservation(Reservation reservation) throws DataException {
         Result<Reservation> result = new Result<>();
         validateReservation(reservation, result);
-        if(!result.isSuccess()) {
-            return result;
-        }
         if(!result.isSuccess()) {
             return result;
         }
