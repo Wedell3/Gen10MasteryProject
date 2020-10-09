@@ -1,7 +1,7 @@
 package mastery_project.ui;
 
 public enum MainMenuOption {
-    EXIT(0, "EXIT"),
+    EXIT(0, "Exit"),
     VIEW_RESERVATIONS_BY_HOST(1, "View Reservations By Host"),
     MAKE_RESERVATION(2, "Make Reservation"),
     EDIT_RESERVATION(3,"Edit Reservation"),
