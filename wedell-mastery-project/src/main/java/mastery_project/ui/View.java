@@ -16,6 +16,15 @@ public class View {
 
     private DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
+    public void displayWelcome() {
+        displayHeader("Welcome to the Don't Wreck My House Management Application");
+    }
+
+    public void displayGoodbye() {
+        displayHeader("Shutting Down");
+        System.out.println("Good Bye");
+    }
+
     public MainMenuOption getMenuSelection() {
         displayMainMenu();
         int value = readInt(String.format("Enter a number [%s-%s]: ", 0, MainMenuOption.values().length - 1), 0, MainMenuOption.values().length - 1);
@@ -23,18 +32,23 @@ public class View {
     }
 
     public void displayMainMenu() {
-        for(MainMenuOption option : MainMenuOption.values()) {
-            System.out.printf("[%s] %s", option.getValue(), option.getMessage());
-        }
         System.out.println();
+        for(MainMenuOption option : MainMenuOption.values()) {
+            System.out.printf("[%s] %s%n", option.getValue(), option.getMessage());
+        }
     }
 
     public void displayHeader(String message) {
+        System.out.println();
         System.out.println(message);
         System.out.println("=".repeat(message.length()));
     }
 
     public void displayReservations(List<Reservation> reservations, Host host) {
+        if(host == null){
+            System.out.println("Host not found\n");
+            return;
+        }
         displayHeader(host.getLastName() + ": " + host.getCity() + " " + host.getState());
         if(reservations.size() == 0) {
             System.out.println("Open Availability");
@@ -43,12 +57,13 @@ public class View {
                 System.out.println(reservationToLine(r));
             }
         }
+        System.out.println();
     }
 
     public void displayResult(Result<Reservation> result, String operation){
         if(result.isSuccess()) {
             displayHeader("SUCCESS");
-            System.out.println("Reservation " + result.getPayload().getId() + operation + ".");
+            System.out.println("Reservation " + result.getPayload().getId() + " " + operation + ".");
         }
         else {
             displayHeader("Failure");
@@ -62,7 +77,7 @@ public class View {
     public void displayResult(Result<Reservation> result,int id, String operation){
         if(result.isSuccess()) {
             displayHeader("SUCCESS");
-            System.out.println("Reservation " + id + operation + ".");
+            System.out.println("Reservation " + id + " " + operation + ".");
         }
         else {
             displayHeader("Failure");
@@ -81,10 +96,12 @@ public class View {
         Reservation reservation = new Reservation();
         reservation.setStartDate(readDate("Start"));
         reservation.setEndDate(readDate("End"));
+        System.out.println();
         return reservation;
     }
 
     public boolean confirmReservation(Reservation reservation, BigDecimal cost) {
+        displayHeader("Summary");
         System.out.println("Start " + dateToString(reservation.getStartDate()));
         System.out.println("End " + dateToString(reservation.getEndDate()));
         System.out.printf("Total: $%.2f%n", cost);
@@ -93,12 +110,12 @@ public class View {
     }
 
     public Reservation selectReservation(List<Reservation> reservations) {
+        if(reservations.size() == 0) {
+            System.out.println("Guest has no reservation with Host");
+            return null;
+        }
+        System.out.println("Enter 0 to exit");
         while (true) {
-            if(reservations.size() == 0) {
-                System.out.println("Guest has no reservation with Host");
-                return null;
-            }
-            System.out.println("Enter 0 to exit");
             int id = readInt("Reservation ID: ");
             if(id == 0) {
                 return null;
@@ -119,7 +136,7 @@ public class View {
 
     private LocalDate updateDate(String prompt, LocalDate date) {
         do {
-            String input = readString(prompt + " (MM/dd/yyyy): ");
+            String input = readString(prompt);
             if(input.isEmpty()){
                 return date;
             }
@@ -183,14 +200,14 @@ public class View {
     private String reservationToLine(Reservation reservation) {
         Guest guest = reservation.getGuest();
         StringBuilder sb = new StringBuilder();
-        sb.append("ID: ").append(reservation.getId()).append(",");
-        sb.append(dateToString(reservation.getStartDate())).append(" - ").append(dateToString(reservation.getEndDate())).append(",");
-        sb.append("Guest: ").append(guest.getFirstName()).append(" ").append(guest.getLastName()).append(",");
+        sb.append("ID: ").append(reservation.getId()).append(", ");
+        sb.append(dateToString(reservation.getStartDate())).append(" - ").append(dateToString(reservation.getEndDate())).append(", ");
+        sb.append("Guest: ").append(guest.getFirstName()).append(" ").append(guest.getLastName()).append(", ");
         sb.append("Email: ").append(guest.getEmail());
         return sb.toString();
     }
 
     private String dateToString(LocalDate date) {
-        return String.format("%2s/%2s/%4s", date.getMonthValue(), date.getDayOfMonth(), date.getYear());
+        return String.format("%02d/%02d/%04d", date.getMonthValue(), date.getDayOfMonth(), date.getYear());
     }
 }

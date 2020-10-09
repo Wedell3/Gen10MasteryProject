@@ -12,10 +12,10 @@ import mastery_project.repository.DataException;
 import java.util.List;
 
 public class Controller {
-    private View view;
-    private ReservationService reservationService;
-    private HostService hostService;
-    private GuestService guestService;
+    private final View view;
+    private final ReservationService reservationService;
+    private final HostService hostService;
+    private final GuestService guestService;
 
     public Controller(View view, ReservationService reservationService, HostService hostService, GuestService guestService) {
         this.view = view;
@@ -25,6 +25,7 @@ public class Controller {
     }
 
     public void run() throws DataException{
+        view.displayWelcome();
         MainMenuOption menu;
         do{
             menu = view.getMenuSelection();
@@ -42,8 +43,8 @@ public class Controller {
                     deleteReservation();
                     break;
             }
-
         } while(menu != MainMenuOption.EXIT);
+        view.displayGoodbye();
     }
 
     private void viewReservationsByHost() throws DataException {
@@ -61,7 +62,12 @@ public class Controller {
         Reservation reservation = view.makeReservation();
         reservation.setGuest(guest);
         reservation.setHost(host);
-        if(view.confirmReservation(reservation, reservationService.calculateCost(reservation))) {
+        Result<Reservation> costResult = reservationService.calculateCost(reservation);
+        if(!costResult.isSuccess()) {
+            view.displayResult(costResult, "");
+            return;
+        }
+        if(view.confirmReservation(reservation, reservationService.calculateCost(reservation).getPayload().getCost())) {
             Result<Reservation> result = reservationService.addReservation(reservation);
             view.displayResult(result, "created");
         }
@@ -72,14 +78,25 @@ public class Controller {
         Guest guest = guestService.findByEmail(view.getEmail("Guest"));
         Host host = hostService.findByEmail(view.getEmail("Host"));
         List<Reservation> guestReservations = reservationService.findGuestForHost(host, guest);
-        view.displayReservations(guestReservations, host);
+        if(guestReservations.size() > 0) {
+            view.displayReservations(guestReservations, host);
+        }
         Reservation reservation = view.selectReservation(guestReservations);
         if(reservation == null) {
             return;
         }
         view.editReservation(reservation);
-        Result<Reservation> result = reservationService.updateReservation(reservation);
-        view.displayResult(result, "updated");
+        reservation.setHost(host);
+        Result<Reservation> costResult = reservationService.calculateCost(reservation);
+        if(!costResult.isSuccess()) {
+            view.displayResult(costResult, "");
+            return;
+        }
+        if(view.confirmReservation(reservation, reservationService.calculateCost(reservation).getPayload().getCost())) {
+            Result<Reservation> result = reservationService.updateReservation(reservation);
+            view.displayResult(result, "updated");
+        }
+
     }
 
     private void deleteReservation() throws DataException{
@@ -92,6 +109,7 @@ public class Controller {
         if(reservation == null) {
             return;
         }
+        reservation.setHost(host);
         int id = reservation.getId();
         Result<Reservation> result = reservationService.deleteReservation(reservation.getHost(), id);
         view.displayResult(result, id, "deleted");
