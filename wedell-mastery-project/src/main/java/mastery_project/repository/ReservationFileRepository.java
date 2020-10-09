@@ -97,7 +97,7 @@ public class ReservationFileRepository implements ReservationRepository {
     }
 
     private void writeAll(List<Reservation> reservations, Host host) {
-        if(reservations == null || reservations.size() == 0 || host == null){
+        if(reservations == null || host == null){
             return;
         }
         try(PrintWriter writer = new PrintWriter(reservationDirectory + host.getId() + ".csv")){
