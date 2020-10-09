@@ -50,6 +50,7 @@ public class View {
             return;
         }
         displayHeader(host.getLastName() + ": " + host.getCity() + " " + host.getState());
+        displayHeader(reservationLineFormat("ID  ", "Check In - Check Out  ", "        Guest Name", "            Guest Email"));
         if(reservations.size() == 0) {
             System.out.println("Open Availability");
         }else {
@@ -199,12 +200,15 @@ public class View {
 
     private String reservationToLine(Reservation reservation) {
         Guest guest = reservation.getGuest();
-        StringBuilder sb = new StringBuilder();
-        sb.append("ID: ").append(reservation.getId()).append(", ");
-        sb.append(dateToString(reservation.getStartDate())).append(" - ").append(dateToString(reservation.getEndDate())).append(", ");
-        sb.append("Guest: ").append(guest.getFirstName()).append(" ").append(guest.getLastName()).append(", ");
-        sb.append("Email: ").append(guest.getEmail());
-        return sb.toString();
+        String id = String.format("ID: %2d", reservation.getId());
+        String dates = " " + dateToString(reservation.getStartDate()) + " - " + dateToString(reservation.getEndDate()) + " ";
+        String guestName = "Guest: " + guest.getFirstName() + " " + guest.getLastName();
+        String email = "Email: " + guest.getEmail();
+        return reservationLineFormat(id, dates, guestName, email);
+    }
+
+    private String reservationLineFormat(String id, String dates, String name, String email) {
+        return String.format("| %6s | %25s | %-27s | %-35s |", id, dates, name, email);
     }
 
     private String dateToString(LocalDate date) {
