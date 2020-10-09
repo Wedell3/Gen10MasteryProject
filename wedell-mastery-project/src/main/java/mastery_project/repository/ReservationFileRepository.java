@@ -44,7 +44,6 @@ public class ReservationFileRepository implements ReservationRepository {
     @Override
     public Reservation add(Reservation reservation) throws DataException{
         List<Reservation> reservations = findByHost(reservation.getHost());
-        reservation.setCost(calculateCost(reservation));
         reservation.setId(getNextId(reservations));
         reservations.add(reservation);
         writeAll(reservations, reservation.getHost());
@@ -56,7 +55,6 @@ public class ReservationFileRepository implements ReservationRepository {
         List<Reservation> reservations = findByHost(reservation.getHost());
         for(int index = 0; index < reservations.size(); index++) {
             if(reservation.getId() == reservations.get(index).getId()) {
-                reservation.setCost(calculateCost(reservation));
                 reservations.set(index, reservation);
                 writeAll(reservations, reservation.getHost());
                 return true;
