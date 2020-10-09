@@ -31,7 +31,9 @@ public class ReservationService {
         if(!result.isSuccess()){
             return new ArrayList<>();
         }
-        return reservationRepository.findByHost(host);
+        List<Reservation> reservations = reservationRepository.findByHost(host);
+        getGuestInfo(reservations);
+        return reservations;
     }
 
     public List<Reservation> findGuestForHost(Host host, Guest guest) throws DataException {
@@ -43,13 +45,15 @@ public class ReservationService {
         return findByHost(host).stream().filter(r -> r.getGuest().getEmail().equals(guest.getEmail())).collect(Collectors.toList());
     }
 
-    public BigDecimal calculateCost(Reservation reservation) throws DataException{
+    public Result<Reservation> calculateCost(Reservation reservation) throws DataException{
         Result<Reservation> result = new Result<>();
-        validateReservation(reservation, result);
+        validateDates(reservation, result);
         if(!result.isSuccess()) {
-            return null;
+            return result;
         }
-        return reservationRepository.calculateCost(reservation);
+        reservation.setCost(reservationRepository.calculateCost(reservation));
+        result.setPayload(reservation);
+        return result;
     }
 
     public Result<Reservation> addReservation(Reservation reservation) throws DataException {
@@ -90,6 +94,13 @@ public class ReservationService {
             result.addErrorMessage("Deletion Failed");
         }
         return result;
+    }
+
+    private void getGuestInfo(List<Reservation> reservations) {
+        for(Reservation r : reservations) {
+            int id = r.getGuest().getId();
+            r.setGuest(guestRepository.findById(id));
+        }
     }
 
     private void validateReservation(Reservation reservation, Result<Reservation> result) throws DataException{
