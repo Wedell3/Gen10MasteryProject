@@ -5,10 +5,7 @@ import mastery_project.models.Guest;
 import mastery_project.models.Host;
 import mastery_project.models.Reservation;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
@@ -35,8 +32,11 @@ public class ReservationFileRepository implements ReservationRepository {
                 Reservation reservation = deserialize(line);
                 reservations.add(reservation);
             }
-        } catch (IOException ex) {
-            throw new DataException("No reservations found for host", ex);
+        }catch (FileNotFoundException ex) {
+            return reservations;
+        }
+        catch (IOException ex) {
+            throw new DataException(ex.getMessage(), ex);
         }
         return reservations;
     }

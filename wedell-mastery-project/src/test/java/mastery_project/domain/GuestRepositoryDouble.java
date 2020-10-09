@@ -22,6 +22,11 @@ public class GuestRepositoryDouble implements GuestRepository {
         return null;
     }
 
+    @Override
+    public Guest findById(int id) {
+        return guests.get(0);
+    }
+
     private ArrayList<Guest> makeGuests() {
         Guest guest1 = new Guest();
         guest1.setId(123);
