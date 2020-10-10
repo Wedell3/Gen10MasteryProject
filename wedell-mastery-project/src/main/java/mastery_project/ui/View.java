@@ -44,9 +44,17 @@ public class View {
         System.out.println("=".repeat(message.length()));
     }
 
+    public void displayAccountNotFound(Host host, Guest guest) {
+        if(guest == null) {
+            System.out.println("Guest not found in system");
+        }
+        if(host == null) {
+            System.out.println("Host not found in system");
+        }
+    }
+
     public void displayReservations(List<Reservation> reservations, Host host) {
         if(host == null){
-            System.out.println("Host not found\n");
             return;
         }
         displayHeader(host.getLastName() + ": " + host.getCity() + " " + host.getState());
@@ -75,7 +83,7 @@ public class View {
         System.out.println();
     }
 
-    public void displayResult(Result<Reservation> result,int id, String operation){
+    public void displayResult(Result<Reservation> result, int id, String operation){
         if(result.isSuccess()) {
             displayHeader("SUCCESS");
             System.out.println("Reservation " + id + " " + operation + ".");

@@ -59,6 +59,10 @@ public class Controller {
         Guest guest = guestService.findByEmail(view.getEmail("Guest"));
         Host host = hostService.findByEmail(view.getEmail("Host"));
         view.displayReservations(reservationService.findByHost(host), host);
+        if(host == null || guest == null) {
+            view.displayAccountNotFound(host, guest);
+            return;
+        }
         Reservation reservation = view.makeReservation();
         reservation.setGuest(guest);
         reservation.setHost(host);
@@ -77,6 +81,10 @@ public class Controller {
         view.displayHeader(MainMenuOption.EDIT_RESERVATION.getMessage());
         Guest guest = guestService.findByEmail(view.getEmail("Guest"));
         Host host = hostService.findByEmail(view.getEmail("Host"));
+        if(host == null || guest == null) {
+            view.displayAccountNotFound(host, guest);
+            return;
+        }
         List<Reservation> guestReservations = reservationService.findGuestForHost(host, guest);
         if(guestReservations.size() > 0) {
             view.displayReservations(guestReservations, host);
@@ -103,8 +111,14 @@ public class Controller {
         view.displayHeader(MainMenuOption.DELETE_RESERVATION.getMessage());
         Guest guest = guestService.findByEmail(view.getEmail("Guest"));
         Host host = hostService.findByEmail(view.getEmail("Host"));
+        if(host == null || guest == null) {
+            view.displayAccountNotFound(host, guest);
+            return;
+        }
         List<Reservation> guestReservations = reservationService.findGuestForHost(host, guest);
-        view.displayReservations(guestReservations, host);
+        if(guestReservations.size() > 0) {
+            view.displayReservations(guestReservations, host);
+        }
         Reservation reservation = view.selectReservation(guestReservations);
         if(reservation == null) {
             return;
@@ -113,6 +127,5 @@ public class Controller {
         int id = reservation.getId();
         Result<Reservation> result = reservationService.deleteReservation(reservation.getHost(), id);
         view.displayResult(result, id, "deleted");
-
     }
 }
