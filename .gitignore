@@ -18,12 +18,12 @@
 *.zip
 *.tar.gz
 *.rar
-
+*.csv
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
 
 wedell-mastery-project/.idea/
-wedell-mastery-project/data/reservations
+wedell-mastery-project/data/reservations/*.csv
 wedell-mastery-project/data/guests.csv
 wedell-mastery-project/data/hosts.csv
 wedell-mastery-project/target/
