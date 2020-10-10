@@ -48,7 +48,7 @@ public class ReservationService {
 
     public Result<Reservation> calculateCost(Reservation reservation) throws DataException{
         Result<Reservation> result = new Result<>();
-        validateDates(reservation, result);
+        validateReservation(reservation, result);
         if(!result.isSuccess()) {
             return result;
         }
@@ -113,7 +113,7 @@ public class ReservationService {
 
     private void validateHost(Host host, Result<Reservation> result){
         if(host == null) {
-            result.addErrorMessage("Host cannot be null");
+            result.addErrorMessage("Host must be registered in the system");
             return;
         }
         if(host.getId() == null || host.getId().isBlank()) {
