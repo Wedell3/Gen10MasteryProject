@@ -72,4 +72,51 @@ class HostFileRepositoryTest {
     void shouldReturnNullForNoMatchingId() {
         assertNull(repository.findById("test-test-test"));
     }
+
+    @Test
+    void shouldAdd() {
+        Host host = new Host();
+        host.setLastName("Test");
+        host.setId("test");
+        host.setEmail("test@test.com");
+        host.setStandardRate(new BigDecimal(100));
+        host.setWeekendRate(new BigDecimal(300));
+        host.setPostalCode(55555);
+        host.setState("MN");
+        host.setCity("St. Paul");
+        host.setAddress("123 Main St.");
+        host.setPhoneNumber("123-456-7890");
+        repository.addHost(host);
+        List<Host> actual = repository.findAll();
+        assertEquals(3, actual.size());
+        assertEquals("Test", actual.get(2).getLastName());
+        assertNotNull(actual.get(2).getId());
+    }
+
+    @Test
+    void shouldUpdate() {
+        Host host = repository.findByEmail("eyearnes0@sfgate.com");
+        host.setLastName("Test");
+        assertTrue(repository.updateHost(host));
+        assertEquals("Test", repository.findAll().get(0).getLastName());
+    }
+
+    @Test
+    void shouldNotUpdateForNoMatchingId() {
+        Host host = new Host();
+        host.setId("test");
+        assertFalse(repository.updateHost(host));
+    }
+
+    @Test
+    void shouldDelete() {
+        assertTrue(repository.deleteHost("eyearnes0@sfgate.com"));
+        assertEquals(1, repository.findAll().size());
+    }
+
+    @Test
+    void shouldNotDeleteForNoMatchingEmail() {
+        assertFalse(repository.deleteHost("test@test.com"));
+    }
+
 }

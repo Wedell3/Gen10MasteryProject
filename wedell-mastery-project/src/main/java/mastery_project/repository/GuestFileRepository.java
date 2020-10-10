@@ -2,9 +2,7 @@ package mastery_project.repository;
 
 import mastery_project.models.Guest;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,6 +48,83 @@ public class GuestFileRepository implements GuestRepository{
             }
         }
         return null;
+    }
+
+    @Override
+    public Guest addGuest(Guest guest) {
+        List<Guest> all = findAll();
+        guest.setId(getNextId(all));
+        all.add(guest);
+        writeAll(all);
+        return guest;
+    }
+
+    @Override
+    public boolean updateGuest(Guest guest) {
+        List<Guest> all = findAll();
+        for(int i = 0; i < all.size(); i++) {
+            if(all.get(i).getId() == guest.getId()) {
+                all.set(i, guest);
+                writeAll(all);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean deleteGuest(int id) {
+        List<Guest> all = findAll();
+        for(int i = 0; i < all.size(); i++) {
+            if(all.get(i).getId() == id) {
+                all.remove(i);
+                writeAll(all);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void writeAll(List<Guest> all) {
+        try(PrintWriter writer = new PrintWriter(filepath)) {
+            writer.println(makeHeader());
+            for(Guest g : all) {
+                writer.println(serialize(g));
+            }
+        } catch (FileNotFoundException ex) {
+        }
+    }
+
+    private int getNextId(List<Guest> guests) {
+        int maxId = 0;
+        for(Guest g : guests) {
+            if(g.getId() > maxId) {
+                maxId = g.getId();
+            }
+        }
+        return maxId + 1;
+    }
+
+    private String makeHeader() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("guest_id").append(DELIMITER);
+        sb.append("first_name").append(DELIMITER);
+        sb.append("last_name").append(DELIMITER);
+        sb.append("email").append(DELIMITER);
+        sb.append("phone").append(DELIMITER);
+        sb.append("state");
+        return sb.toString();
+    }
+
+    private String serialize(Guest guest) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(guest.getId()).append(DELIMITER);
+        sb.append(guest.getFirstName()).append(DELIMITER);
+        sb.append(guest.getLastName()).append(DELIMITER);
+        sb.append(guest.getEmail()).append(DELIMITER);
+        sb.append(guest.getPhoneNumber()).append(DELIMITER);
+        sb.append(guest.getState());
+        return sb.toString();
     }
 
     private Guest deserialize(String line) {

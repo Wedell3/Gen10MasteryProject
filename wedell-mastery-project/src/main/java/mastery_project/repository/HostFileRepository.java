@@ -2,9 +2,7 @@ package mastery_project.repository;
 
 import mastery_project.models.Host;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,6 +52,69 @@ public class HostFileRepository implements HostRepository {
         return null;
     }
 
+    @Override
+    public Host addHost(Host host) {
+        List<Host> all = findAll();
+        host.setId(java.util.UUID.randomUUID().toString());
+        all.add(host);
+        writeAll(all);
+        return host;
+    }
+
+    @Override
+    public boolean updateHost(Host host) {
+        List<Host> all = findAll();
+        for(int i = 0; i < all.size(); i ++) {
+            if(all.get(i).getId().equals(host.getId())) {
+                all.set(i, host);
+                writeAll(all);
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    @Override
+    public boolean deleteHost(String email) {
+        List<Host> all = findAll();
+        for(int i = 0; i < all.size(); i ++) {
+            if(all.get(i).getEmail().equals(email)) {
+                all.remove(i);
+                writeAll(all);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void writeAll(List<Host> all) {
+        try(PrintWriter writer = new PrintWriter(filepath)) {
+            writer.println(makeHeader());
+            for(Host h : all) {
+                writer.println(serialize(h));
+            }
+        } catch(FileNotFoundException ex ) {
+
+        }
+    }
+
+    private String serialize(Host host) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(host.getId()).append(DELIMITER);
+        sb.append(host.getLastName()).append(DELIMITER);
+        sb.append(host.getEmail()).append(DELIMITER);
+        sb.append(host.getPhoneNumber()).append(DELIMITER);
+        sb.append(host.getAddress()).append(DELIMITER);
+        sb.append(host.getCity()).append(DELIMITER);
+        sb.append(host.getState()).append(DELIMITER);
+        sb.append(host.getPostalCode()).append(DELIMITER);
+        sb.append(host.getStandardRate()).append(DELIMITER);
+        sb.append(host.getWeekendRate());
+        return sb.toString();
+
+    }
+
     private Host deserialize(String line) {
         String[] fields = line.split(DELIMITER);
         Host host = new Host();
@@ -68,5 +129,20 @@ public class HostFileRepository implements HostRepository {
         host.setStandardRate(new BigDecimal(fields[8]));
         host.setWeekendRate(new BigDecimal(fields[9]));
         return host;
+    }
+
+    private String makeHeader() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("id").append(DELIMITER);
+        sb.append("last_name").append(DELIMITER);
+        sb.append("email").append(DELIMITER);
+        sb.append("phone").append(DELIMITER);
+        sb.append("address").append(DELIMITER);
+        sb.append("city").append(DELIMITER);
+        sb.append("state").append(DELIMITER);
+        sb.append("postal_code").append(DELIMITER);
+        sb.append("standard_rate").append(DELIMITER);
+        sb.append("weekend_rate");
+        return sb.toString();
     }
 }

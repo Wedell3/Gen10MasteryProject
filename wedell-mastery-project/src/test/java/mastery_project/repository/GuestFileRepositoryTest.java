@@ -47,4 +47,55 @@ class GuestFileRepositoryTest {
         assertNull(repository.findByEmail("test@test.com"));
     }
 
+    @Test
+    void shouldFindById() {
+        Guest guest = repository.findById(1);
+        assertNotNull(guest);
+        assertEquals(1, guest.getId());
+        assertEquals("Lomas", guest.getLastName());
+    }
+
+    @Test
+    void shouldReturnNullForNoMatchingId() {
+        assertNull(repository.findById(999));
+    }
+
+    @Test
+    void shouldAdd() {
+        Guest guest = new Guest();
+        guest.setFirstName("Test");
+        guest.setLastName("guest");
+        guest.setEmail("test@test.com");
+        guest.setState("MN");
+        guest.setPhoneNumber("123-456-7890");
+        guest = repository.addGuest(guest);
+        assertEquals(3, guest.getId());
+        assertEquals(3, repository.findAll().size());
+    }
+
+    @Test
+    void shouldUpdate() {
+        Guest guest = repository.findById(1);
+        guest.setLastName("Test");
+        assertTrue(repository.updateGuest(guest));
+        assertEquals("Test", repository.findById(1).getLastName());
+    }
+
+    @Test
+    void shouldNotUpdateForNoMatchingId() {
+        Guest guest = new Guest();
+        guest.setId(100);
+        assertFalse(repository.updateGuest(guest));
+    }
+
+    @Test
+    void shouldDelete() {
+        assertTrue(repository.deleteGuest(1));
+        assertEquals(1, repository.findAll().size());
+    }
+
+    @Test
+    void shouldNotDeleteForIdNotFound() {
+        assertFalse(repository.deleteGuest(1000));
+    }
 }

@@ -11,4 +11,10 @@ public interface GuestRepository {
 
     Guest findById(int id);
 
+    Guest addGuest(Guest guest);
+
+    boolean updateGuest(Guest guest);
+
+    boolean deleteGuest(int id);
+
 }

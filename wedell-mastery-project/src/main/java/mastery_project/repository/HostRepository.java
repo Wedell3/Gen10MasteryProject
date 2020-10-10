@@ -10,4 +10,10 @@ public interface HostRepository {
     Host findByEmail(String email);
 
     Host findById(String id);
+
+    Host addHost(Host host);
+
+    boolean updateHost(Host host);
+
+    boolean deleteHost(String email);
 }
