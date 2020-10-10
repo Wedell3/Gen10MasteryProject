@@ -34,7 +34,7 @@ public class ReservationService {
         }
         List<Reservation> reservations = reservationRepository.findByHost(host);
         getGuestInfo(reservations);
-        return reservations.stream().sorted(Comparator.comparing(Reservation::getStartDate)).collect(Collectors.toList());
+        return reservations.stream().filter(r -> r.getEndDate().isAfter(LocalDate.now())).sorted(Comparator.comparing(Reservation::getStartDate)).collect(Collectors.toList());
     }
 
     public List<Reservation> findGuestForHost(Host host, Guest guest) throws DataException {
