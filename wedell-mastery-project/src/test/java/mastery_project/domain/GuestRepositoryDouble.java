@@ -29,7 +29,7 @@ public class GuestRepositoryDouble implements GuestRepository {
 
     private ArrayList<Guest> makeGuests() {
         Guest guest1 = new Guest();
-        guest1.setId(123);
+        guest1.setId(1);
         guest1.setFirstName("one");
         guest1.setLastName("uno");
         guest1.setState("MN");

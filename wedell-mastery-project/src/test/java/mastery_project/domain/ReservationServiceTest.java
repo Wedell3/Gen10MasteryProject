@@ -69,7 +69,7 @@ class ReservationServiceTest {
         reservation.setGuest(guest);
         reservation.setEndDate(endDate);
         reservation.setStartDate(startDate);
-        assertEquals(new BigDecimal(300), service.calculateCost(reservation));
+        assertEquals(new BigDecimal(300), service.calculateCost(reservation).getPayload().getCost());
     }
 
     @Test
@@ -80,7 +80,7 @@ class ReservationServiceTest {
         reservation.setGuest(guest);
         reservation.setEndDate(endDate);
         reservation.setStartDate(startDate);
-        assertNull(service.calculateCost(reservation));
+        assertNull(service.calculateCost(reservation).getPayload());
     }
 
     @Test
@@ -91,7 +91,7 @@ class ReservationServiceTest {
         reservation.setGuest(guest);
         reservation.setEndDate(endDate);
         reservation.setStartDate(startDate);
-        assertNull(service.calculateCost(reservation));
+        assertNull(service.calculateCost(reservation).getPayload());
     }
 
     @Test
@@ -102,7 +102,7 @@ class ReservationServiceTest {
         reservation.setGuest(guest);
         reservation.setEndDate(endDate);
         reservation.setStartDate(startDate);
-        assertNull(service.calculateCost(reservation));
+        assertNull(service.calculateCost(reservation).getPayload());
     }
     @Test
     void shouldNotCalculateForNullWeekendRate() throws DataException {
@@ -112,7 +112,7 @@ class ReservationServiceTest {
         reservation.setGuest(guest);
         reservation.setEndDate(endDate);
         reservation.setStartDate(startDate);
-        assertNull(service.calculateCost(reservation));
+        assertNull(service.calculateCost(reservation).getPayload());
     }
 
     @Test
@@ -123,7 +123,7 @@ class ReservationServiceTest {
         reservation.setGuest(guest);
         reservation.setEndDate(endDate);
         reservation.setStartDate(startDate);
-        assertNull(service.calculateCost(reservation));
+        assertNull(service.calculateCost(reservation).getPayload());
     }
 
     @Test
@@ -134,7 +134,7 @@ class ReservationServiceTest {
         reservation.setGuest(guest);
         reservation.setEndDate(endDate);
         reservation.setStartDate(startDate);
-        assertNull(service.calculateCost(reservation));
+        assertNull(service.calculateCost(reservation).getPayload());
     }
 
     @Test
@@ -160,7 +160,7 @@ class ReservationServiceTest {
         Result<Reservation> result = service.addReservation(reservation);
         assertNotNull(result);
         assertFalse(result.isSuccess());
-        assertTrue(result.getErrorMessages().get(0).contains("null"));
+        assertTrue(result.getErrorMessages().get(0).contains("Host"));
     }
 
     @Test
@@ -550,7 +550,7 @@ class ReservationServiceTest {
         Result<Reservation> result = service.updateReservation(reservation);
         assertNotNull(result);
         assertFalse(result.isSuccess());
-        assertTrue(result.getErrorMessages().get(0).contains("null"));
+        assertTrue(result.getErrorMessages().get(0).contains("Host"));
     }
 
     @Test
