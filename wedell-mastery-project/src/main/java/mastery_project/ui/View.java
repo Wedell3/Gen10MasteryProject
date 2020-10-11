@@ -208,7 +208,7 @@ public class View {
 
     private String reservationToLine(Reservation reservation) {
         Guest guest = reservation.getGuest();
-        String id = String.format("ID: %2d", reservation.getId());
+        String id = String.format("%2d", reservation.getId());
         String dates = " " + dateToString(reservation.getStartDate()) + " - " + dateToString(reservation.getEndDate()) + " ";
         String guestName = "Guest: " + guest.getFirstName() + " " + guest.getLastName();
         String email = "Email: " + guest.getEmail();
@@ -216,7 +216,7 @@ public class View {
     }
 
     private String reservationLineFormat(String id, String dates, String name, String email) {
-        return String.format("| %6s | %25s | %-27s | %-35s |", id, dates, name, email);
+        return String.format("| %2s | %25s | %-27s | %-35s |", id, dates, name, email);
     }
 
     private String dateToString(LocalDate date) {
