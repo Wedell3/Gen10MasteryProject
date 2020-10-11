@@ -14,7 +14,7 @@ import java.util.Scanner;
 
 public class View {
 
-    private DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+    private final DateTimeFormatter format = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
     public void displayWelcome() {
         displayHeader("Welcome to the Don't Wreck My House Management Application");
@@ -33,7 +33,22 @@ public class View {
 
     public void displayMainMenu() {
         System.out.println();
+        displayHeader("Main Menu");
         for(MainMenuOption option : MainMenuOption.values()) {
+            System.out.printf("[%s] %s%n", option.getValue(), option.getMessage());
+        }
+    }
+
+    public ManageAccountsOption getAccountsOption() {
+        displayAccountManagementMenu();
+        int value = readInt(String.format("Enter a number [%s-%s]: ", 0, ManageAccountsOption.values().length - 1), 0, ManageAccountsOption.values().length - 1);
+        return ManageAccountsOption.getOptionFromValue(value);
+    }
+
+    public void displayAccountManagementMenu() {
+        System.out.println();
+        displayHeader("Account Management Menu");
+        for(ManageAccountsOption option : ManageAccountsOption.values()) {
             System.out.printf("[%s] %s%n", option.getValue(), option.getMessage());
         }
     }
@@ -53,6 +68,14 @@ public class View {
         }
     }
 
+    public void displayAccountNotFound(Host host) {
+        displayAccountNotFound(host, new Guest());
+    }
+
+    public void displayAccountNotFound(Guest guest) {
+        displayAccountNotFound(new Host(), guest);
+    }
+
     public void displayReservations(List<Reservation> reservations, Host host) {
         if(host == null){
             return;
@@ -67,6 +90,28 @@ public class View {
             }
         }
         System.out.println();
+    }
+
+    public void displayHosts(List<Host> hosts) {
+        if(hosts.size() == 0) {
+            System.out.println("No Hosts Registered");
+        }else {
+            displayHeader(makeHostHeader());
+            for(Host h : hosts) {
+                System.out.println(hostToLine(h));
+            }
+        }
+    }
+
+    public void displayGuests(List<Guest> guests) {
+        if(guests.size() == 0) {
+            System.out.println("No Guests Registered");
+        } else {
+            displayHeader(makeGuestHeader());
+            for(Guest g : guests) {
+                System.out.println(guestToLine(g));
+            }
+        }
     }
 
     public void displayResult(Result<Reservation> result, String operation){
@@ -97,6 +142,38 @@ public class View {
         System.out.println();
     }
 
+    public void displayHostResult(Result<Host> result, String operation) {
+        if(result.isSuccess()) {
+            displayHeader("SUCCESS");
+            System.out.println("Host " + operation);
+        } else {
+            displayHeader("FAILURE");
+            for(String message : result.getErrorMessages()) {
+                System.out.println(message);
+            }
+        }
+    }
+
+    public void displayGuestResult(Result<Guest> result, String operation) {
+        if(result.isSuccess()) {
+            displayHeader("SUCCESS");
+            System.out.println("Guest " + operation);
+        } else {
+            displayHeader("FAILURE");
+            for(String message : result.getErrorMessages()) {
+                System.out.println(message);
+            }
+        }
+    }
+
+    public int getAccountType() {
+        System.out.println();
+        System.out.println("[0] Go Back");
+        System.out.println("[1] Host");
+        System.out.println("[2] Guest");
+        return readInt("Select Account Type [0-2]: ", 0, 2);
+    }
+
     public String getEmail(String person) {
         return readRequiredString(person +" Email: ");
     }
@@ -107,6 +184,30 @@ public class View {
         reservation.setEndDate(readDate("End"));
         System.out.println();
         return reservation;
+    }
+
+    public Host makeHost() {
+        Host host = new Host();
+        host.setLastName(readRequiredString("Last Name: "));
+        host.setEmail(readRequiredString("Email: "));
+        host.setPhoneNumber(readRequiredString("Phone Number: "));
+        host.setAddress(readRequiredString("Address: "));
+        host.setCity(readRequiredString("City: "));
+        host.setState(readRequiredString("State Abbreviation: "));
+        host.setPostalCode(readInt("Postal Code: ", 0, 99999));
+        host.setStandardRate(new BigDecimal(readInt("Standard Rate: ", 0, 1000000)));
+        host.setWeekendRate(new BigDecimal(readInt("Weekend Rate: ", 0, 1000000)));
+        return host;
+    }
+
+    public Guest makeGuest() {
+        Guest guest = new Guest();
+        guest.setFirstName(readRequiredString("First Name: "));
+        guest.setLastName(readRequiredString("Last Name: "));
+        guest.setEmail(readRequiredString("Email: "));
+        guest.setPhoneNumber(readRequiredString("Phone Number: "));
+        guest.setState(readRequiredString("State Abbreviation: "));
+        return guest;
     }
 
     public boolean confirmReservation(Reservation reservation, BigDecimal cost) {
@@ -141,6 +242,63 @@ public class View {
         displayHeader(String.format("Editing Reservation %s", reservation.getId()));
         reservation.setStartDate(updateDate("Start (" + dateToString(reservation.getStartDate()) + "): ", reservation.getStartDate()));
         reservation.setEndDate(updateDate("End (" + dateToString(reservation.getEndDate()) + "): ", reservation.getEndDate()));
+    }
+
+    public void updateHost(Host host) {
+        host.setLastName(updateString("Last Name ", host.getLastName()));
+        host.setEmail(updateString("Email ", host.getEmail()));
+        host.setPhoneNumber(updateString("Phone Number ", host.getPhoneNumber()));
+        host.setAddress(updateString("Address ", host.getAddress()));
+        host.setCity(updateString("City ", host.getCity()));
+        host.setState(updateString("State Abbreviation ", host.getState()));
+        host.setPostalCode(updateInt("Postal Code ", host.getPostalCode()));
+        host.setStandardRate(updateRate("Standard Rate ", host.getStandardRate()));
+        host.setWeekendRate(updateRate("Weekend Rate ", host.getWeekendRate()));
+    }
+
+    public void updateGuest(Guest guest) {
+        guest.setFirstName(updateString("First Name ", guest.getFirstName()));
+        guest.setLastName(updateString("Last Name ", guest.getLastName()));
+        guest.setEmail(updateString("Email ", guest.getEmail()));
+        guest.setPhoneNumber(updateString("Phone Number ", guest.getPhoneNumber()));
+        guest.setState(updateString("State Abbreviation ", guest.getState()));
+    }
+
+    private String updateString(String prompt, String currentValue) {
+        String input = readString(prompt + "(" +currentValue + "): ");
+        if(input.isBlank()) {
+            return currentValue;
+        } else {
+            return input;
+        }
+    }
+
+    private int updateInt(String prompt, int currentValue) {
+        do{
+            String input = readString(prompt + "(" +currentValue + "): ");
+            if(input.isBlank()) {
+                return currentValue;
+            }
+            try{
+                return Integer.parseInt(input);
+            } catch (NumberFormatException ex) {
+                System.out.println("Enter a numeric value");
+            }
+        } while (true);
+    }
+
+    private BigDecimal updateRate(String prompt, BigDecimal currentValue) {
+        do{
+            String input = readString(prompt + "(" +currentValue + "): ");
+            if(input.isBlank()) {
+                return currentValue;
+            }
+            try{
+                 new BigDecimal(input);
+            } catch (NumberFormatException ex) {
+                System.out.println("Enter a numeric value");
+            }
+        } while (true);
     }
 
     private LocalDate updateDate(String prompt, LocalDate date) {
@@ -215,8 +373,34 @@ public class View {
         return reservationLineFormat(id, dates, guestName, email);
     }
 
+    private String hostToLine(Host host) {
+        String address = host.getAddress() + ", " + host.getCity() + ", " + host.getState();
+        return hostLineFormat(host.getId(), host.getLastName(), host.getEmail(), address, host.getPostalCode(), host.getStandardRate(), host.getWeekendRate());
+    }
+
+    private String guestToLine(Guest guest) {
+        String name = guest.getFirstName() + " " + guest.getLastName();
+        return guestLineFormat(guest.getId(), name, guest.getEmail(), guest.getPhoneNumber(), guest.getState());
+    }
+
     private String reservationLineFormat(String id, String dates, String name, String email) {
         return String.format("| %2s | %25s | %-27s | %-35s |", id, dates, name, email);
+    }
+
+    private String hostLineFormat(String id, String lastName, String email, String address, int postalCode, BigDecimal standardRate, BigDecimal weekendRate) {
+        return String.format("| %36s | %18s | %38s | %48s | %9d | %4.2f | %4.2f", id, lastName, email, address, postalCode, standardRate.doubleValue(), weekendRate.doubleValue());
+    }
+
+    private String guestLineFormat(int id, String name , String email,String phone, String state) {
+        return String.format("| %4d | %27s | %36s | %14s | %5s |", id, name, email, phone, state);
+    }
+
+    private String makeHostHeader() {
+        return String.format("| %36s | %18s | %38s | %48s | %9s | %6s | %6s","ID", "Last Name", "Email", "Address", "Postal Code", "S-Rate", "W-Rate");
+    }
+
+    private String makeGuestHeader() {
+        return String.format("| %4s | %27s | %36s | %14s | %5s |", "ID", "Name", "Email", "Phone", "State");
     }
 
     private String dateToString(LocalDate date) {

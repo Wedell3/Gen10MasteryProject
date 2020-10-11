@@ -6,23 +6,23 @@
 
 ###  UI layer
 
-#### Time estimate 30 minutes/// actual
-    [ ] create main menu option to enter account management menu
-    [ ] add enum value to main menu
-    [ ] add option to switch statement in controller
-    [ ] add private method to enter account management in controller
+#### Time estimate 30 minutes/// actual 30 minutes
+    [x] create main menu option to enter account management menu
+    [x] add enum value to main menu
+    [x] add option to switch statement in controller
+    [x] add private method to enter account management in controller
     
-#### Time estimate 45 minutes /// actual    
-    [ ] create account management menu enum
-    [ ] inside private method create do while loop withs switch statement for account management menu
-    [ ] create method in view to display menu
-    [ ] get menu choice
-    [ ] have option to create, read update or delete account
+#### Time estimate 45 minutes /// actual 1.25 hours   
+    [x] create account management menu enum
+    [x] inside private method create do while loop withs switch statement for account management menu
+    [x] create method in view to display menu
+    [x] get menu choice
+    [x] have option to create, read update or delete account
     
     
-#### time estimate 45 minutes //// actual
-    [ ] inside each method have a selecte 0-2 to exit, host guest
-    [ ] create private methods for 4 main functions
+#### time estimate 45 minutes //// actual 1.5 hours
+    [x] inside each method have a selecte 0-2 to exit, host guest
+    [x] create private methods for 4 main functions
     
     
 #### time estimate 2 hours //// actual 2 hours

@@ -42,6 +42,8 @@ public class Controller {
                 case DELETE_RESERVATION:
                     deleteReservation();
                     break;
+                case MANAGE_ACCOUNTS:
+                    manageAccounts();
             }
         } while(menu != MainMenuOption.EXIT);
         view.displayGoodbye();
@@ -127,5 +129,106 @@ public class Controller {
         int id = reservation.getId();
         Result<Reservation> result = reservationService.deleteReservation(reservation.getHost(), id);
         view.displayResult(result, id, "deleted");
+    }
+
+    private void manageAccounts() {
+        //view.displayHeader(MainMenuOption.MANAGE_ACCOUNTS.getMessage());
+        ManageAccountsOption option;
+        int type;
+        do{
+            option = view.getAccountsOption();
+            switch (option) {
+                case VIEW:
+                    type = view.getAccountType();
+                    getAndDisplayAccounts(type);
+                    break;
+                case CREATE:
+                    type = view.getAccountType();
+                    createAccount(type);
+                    break;
+                case UPDATE:
+                    type = view.getAccountType();
+                    updateAccount(type);
+                    break;
+                case DELETE:
+                    type = view.getAccountType();
+                    deleteAccount(type);
+                    break;
+            }
+        } while (option != ManageAccountsOption.EXIT);
+    }
+
+    private void getAndDisplayAccounts(int type) {
+        if(type == 1) {
+            view.displayHeader("Viewing Hosts");
+            List<Host> allHosts = hostService.findAll();
+            view.displayHosts(allHosts);
+        } else if(type == 2) {
+            view.displayHeader("Viewing Guests");
+            List<Guest> allGuests = guestService.findAll();
+            view.displayGuests(allGuests);
+        }
+    }
+
+    private void createAccount(int type) {
+        if(type == 1) {
+            view.displayHeader("Create Host Account");
+            Host host = view.makeHost();
+            Result<Host> result = hostService.add(host);
+            view.displayHostResult(result, "added");
+        } else if(type == 2) {
+            view.displayHeader("Create Guest Account");
+            Guest guest = view.makeGuest();
+            Result<Guest> result = guestService.addGuest(guest);
+            view.displayGuestResult(result, "added");
+        }
+    }
+
+    private void updateAccount(int type) {
+        if(type == 1) {
+            view.displayHeader("Update Host Account");
+            Host host = hostService.findByEmail(view.getEmail("Host"));
+            if (host == null) {
+                view.displayAccountNotFound(host);
+                return;
+            }
+            view.updateHost(host);
+            Result<Host> result = hostService.update(host);
+            view.displayHostResult(result, "updated");
+        } else if(type == 2) {
+            view.displayHeader("Update Guest Account");
+            Guest guest = guestService.findByEmail(view.getEmail("Guest"));
+            if(guest == null) {
+                view.displayAccountNotFound(guest);
+                return;
+            }
+            view.updateGuest(guest);
+            Result<Guest> result = guestService.updateGuest(guest);
+            view.displayGuestResult(result, "updated");
+        }
+    }
+
+    private void deleteAccount(int type) {
+        if(type == 1) {
+            view.displayHeader("Delete Host Account");
+            String email = view.getEmail("Host");
+            Host host = hostService.findByEmail(email);
+            if(host == null) {
+                view.displayAccountNotFound(host);
+                return;
+            }
+            Result<Host> result = hostService.delete(email);
+            view.displayHostResult(result, "deleted");
+        } else if(type == 2) {
+            view.displayHeader("Delete Guest Account");
+            String email = view.getEmail("Guest");
+            Guest guest = guestService.findByEmail(email);
+            if(guest == null) {
+                view.displayAccountNotFound(guest);
+                return;
+            }
+            Result<Guest> result = guestService.deleteGuest(guest.getId());
+            view.displayGuestResult(result, "deleted");
+        }
     }
 }
