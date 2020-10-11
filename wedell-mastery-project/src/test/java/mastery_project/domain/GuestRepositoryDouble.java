@@ -27,6 +27,21 @@ public class GuestRepositoryDouble implements GuestRepository {
         return guests.get(0);
     }
 
+    @Override
+    public Guest addGuest(Guest guest) {
+        return guest;
+    }
+
+    @Override
+    public boolean updateGuest(Guest guest) {
+        return guest.getId() == 2;
+    }
+
+    @Override
+    public boolean deleteGuest(int id) {
+        return id == 2;
+    }
+
     private ArrayList<Guest> makeGuests() {
         Guest guest1 = new Guest();
         guest1.setId(1);
@@ -36,7 +51,7 @@ public class GuestRepositoryDouble implements GuestRepository {
         guest1.setPhoneNumber("(123) 456 7890");
         guest1.setEmail("one@uno.com");
         Guest guest2 = new Guest();
-        guest2.setId(456);
+        guest2.setId(2);
         guest2.setFirstName("two");
         guest2.setLastName("dos");
         guest2.setState("WI");

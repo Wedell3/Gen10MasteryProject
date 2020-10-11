@@ -29,6 +29,21 @@ public class HostRepositoryDouble implements HostRepository {
         return null;
     }
 
+    @Override
+    public Host addHost(Host host) {
+        return host;
+    }
+
+    @Override
+    public boolean updateHost(Host host) {
+        return host.getId().equals("test-test-test");
+    }
+
+    @Override
+    public boolean deleteHost(String email) {
+        return email.equals("host@host.com");
+    }
+
     private ArrayList<Host> makeHosts() {
         Host host1 = new Host();
         host1.setEmail("host@host.com");

@@ -1,4 +1,6 @@
-in find by host method filter out reservations that are in the past ( end date is before now)
+[x] in find by host method filter out reservations that are in the past ( end date is before now)
+    
+[x] format id numbers in display reservations
 
 ##Account management
 
@@ -23,10 +25,10 @@ in find by host method filter out reservations that are in the past ( end date i
     [ ] create private methods for 4 main functions
     
     
-#### time estimate 2 hours //// actual
-    [ ] create crud methods in repository layer (guest and host repo)
-        [ ] test
+#### time estimate 2 hours //// actual 2 hours
+    [x] create crud methods in repository layer (guest and host repo)
+        [x] test
         
-#### time estimate 3 hours //// actual
-    [ ] create crud methods in service layer (guest and host service)
-        [ ] test         
+#### time estimate 3 hours //// actual 2.5 hour
+    [x] create crud methods in service layer (guest and host service)
+        [x] test         
